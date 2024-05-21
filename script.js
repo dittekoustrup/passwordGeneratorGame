@@ -63,31 +63,47 @@ function checkPassword() {
 
 function sortPrompts() {
     let sortedPrompts = [];
+    let numUncompleted = 0;
     const password = passwordInput.value;
 
     completedRules.forEach(prompt => {
-        if (sortedPrompts.length == 0) {
-            sortedPrompts.push(prompt);
+        if (prompt.check(password)) {
+            sortedPrompts.splice(numUncompleted, 0, prompt);
         } else {
-            if (prompt.check(password) == false) {
-                sortedPrompts.splice(0, 0, prompt);
-            } else {
-                let isInserted = false; 
-                for (let i = 0; i < sortedPrompts.length; i++) {
-                    const element = sortedPrompts[i];
-                    if (element.check(password) == true) {
-                        sortedPrompts.splice(i, 0, prompt);
-                        isInserted = true;
-                        break;
-                    }
-                }
-                if (isInserted == false) {
-                    sortedPrompts.push(prompt);
-                }
-            }
+            sortedPrompts.splice(0, 0, prompt);
+            numUncompleted += 1;
         }
-        
-    });
+    })
     return sortedPrompts;
 }
 
+// First try, more complicated - Tried to understand sorting
+// function sortPrompts() {
+//     let sortedPrompts = [];
+//     const password = passwordInput.value;
+
+//     completedRules.forEach(prompt => {
+//         if (sortedPrompts.length == 0) {
+//             sortedPrompts.push(prompt);
+//         } else {
+//             if (prompt.check(password) == false) {
+//                 sortedPrompts.splice(0, 0, prompt);
+//             } else {
+//                 let isInserted = false; 
+//                 for (let i = 0; i < sortedPrompts.length; i++) {
+//                     const element = sortedPrompts[i];
+//                     if (element.check(password) == true) {
+//                         sortedPrompts.splice(i, 0, prompt);
+//                         isInserted = true;
+//                         break;
+//                     }
+//                 }
+//                 if (isInserted == false) {
+//                     sortedPrompts.push(prompt);
+//                 }
+//             }
+//         }
+        
+//     });
+//     return sortedPrompts;
+// }
