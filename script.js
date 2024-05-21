@@ -28,33 +28,66 @@ function checkPassword() {
     let allRulesMet = true;
 
     for (let i = 0; i < rules.length; i++) {
-        if (rules[i].check(password)) {
-            if (completedRules.length === i && allRulesMet) {
-                const ruleElement = document.createElement('div');
-                ruleElement.className = 'prompt completed';
-                ruleElement.innerText = rules[i].message;
-                completedPrompts.appendChild(ruleElement);
-                completedRules.push(rules[i].message);
-            } else {
-                const existingElement = completedPrompts.children[i];
-                existingElement.className = 'prompt completed';
-            }
-        } else {
-            if (completedRules.length === i && allRulesMet) {
-                const ruleElement = document.createElement('div');
-                ruleElement.className = 'prompt uncompleted';
-                ruleElement.innerText = rules[i].message;
-                completedPrompts.appendChild(ruleElement);
-                completedRules.push(rules[i].message);
-            } else {
-                const existingElement = completedPrompts.children[i];
-                existingElement.className = 'prompt uncompleted';
-            }
+
+        if (completedRules.length === i && allRulesMet) {
+            completedRules.push(rules[i]);
+        }
+
+        if (rules[i].check(password) == false) {
             allRulesMet = false;
         }
     }
+    let sorted = sortPrompts();
+    completedPrompts.innerHTML = '';
+    sorted.forEach(prompt => {
+        if (prompt.check(password)) {
+            const ruleElement = document.createElement('div');
+            ruleElement.className = 'prompt completed';
+            ruleElement.innerText = prompt.message;
+            completedPrompts.appendChild(ruleElement);
+        } else {
+            const ruleElement = document.createElement('div');
+            ruleElement.className = 'prompt uncompleted';
+            ruleElement.innerText = prompt.message;
+            completedPrompts.appendChild(ruleElement);
+        }
+    })
+
 
     if (allRulesMet) {
         currentPrompt.innerText = 'Your password meets all the requirements!';
+    } else {
+        currentPrompt.innerText = '';
     }
 }
+
+function sortPrompts() {
+    let sortedPrompts = [];
+    const password = passwordInput.value;
+
+    completedRules.forEach(prompt => {
+        if (sortedPrompts.length == 0) {
+            sortedPrompts.push(prompt);
+        } else {
+            if (prompt.check(password) == false) {
+                sortedPrompts.splice(0, 0, prompt);
+            } else {
+                let isInserted = false; 
+                for (let i = 0; i < sortedPrompts.length; i++) {
+                    const element = sortedPrompts[i];
+                    if (element.check(password) == true) {
+                        sortedPrompts.splice(i, 0, prompt);
+                        isInserted = true;
+                        break;
+                    }
+                }
+                if (isInserted == false) {
+                    sortedPrompts.push(prompt);
+                }
+            }
+        }
+        
+    });
+    return sortedPrompts;
+}
+
