@@ -1,5 +1,6 @@
-body {
-    font-family: Arial, sans-serif;
+* {
+    font-family: Poppins, sans-serif;
+    background-color: lavender;
 }
 
 .container {
@@ -13,12 +14,17 @@ body {
     justify-content: center;
     align-items: center;
     text-align: center;
-    margin-bottom: 20px;
+    margin-bottom: 30px;
     gap: 10px;
+
 }
 
 input {
     padding: 10px;
+    background-color: whitesmoke;
+    border-radius: 10px;
+    width: 30%;
+    height: 30px;
 }
 
 .prompt {
@@ -31,9 +37,9 @@ input {
 }
 
 .completed {
-    color: green;
+    color: #0AA222;
 }
 
 .uncompleted {
-    color: red;
+    color: #A20A0E;
 }
