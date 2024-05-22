@@ -14,7 +14,7 @@ const rules = [
     { message: 'Rule 7: This is Slinky 🦎 and he loves to be warm, please take him with you to keep him warm', check: (pwd) => /[🦎]/.test(pwd) },
     { message: 'Rule 8: Your password must contain a prime number.', check: (pwd) => /[2357]/.test(pwd) },
     { message: 'Rule 9: Your password must contain the word "unicorn" 🦄.', check: (pwd) => /unicorn/.test(pwd) },
-    { message: 'Rule 10: Your password must contain the name of a prime color.', check: (pwd) => /(?:\w|^)(red|blue|green)(?:\w|$)/i.test(pwd) },
+    { message: 'Rule 10: Your password must contain the name of a prime color.', check: (pwd) => /(?:\w|^)(red|blue|green)(?:\w|$)/i.test(pwd) }
 ];
 
 passwordInput.addEventListener('input', checkPassword);
@@ -37,6 +37,7 @@ function checkPassword() {
 
     let allRulesMet = true;
 
+    // Check each rule to see if the password meets the criteria
     for (let i = 0; i < rules.length; i++) {
         // If the number of completed rules matches the current index and all previous rules are met, add the current rule to completedRules
         if (completedRules.length === i && allRulesMet) {
@@ -52,6 +53,7 @@ function checkPassword() {
     // Clears the completedPrompts element's content.
     completedPrompts.innerHTML = '';
     
+    // Iterate through the sorted prompts to display them
     sorted.forEach(prompt => {
         if (prompt.check(password)) {
             // Create a new div element for the prompt
@@ -69,6 +71,7 @@ function checkPassword() {
         }
     })
 
+    // Update the current prompt message based on whether all rules are met
     if (allRulesMet) {
         currentPrompt.innerText = 'Your password meets all the requirements!';
     } else {
@@ -129,3 +132,4 @@ function sortPrompts() {
 //     });
 //     return sortedPrompts;
 // }
+
