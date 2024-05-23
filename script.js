@@ -17,9 +17,10 @@ const rules = [
     { message: 'Rule 10: Your password must contain the name of a prime color.', check: (pwd) => /(?:\w|^)(red|blue|green)(?:\w|$)/i.test(pwd) }
 ];
 
+// Listen for user input and run the checkPassword function. 
 passwordInput.addEventListener('input', checkPassword);
 
-let completedRules = [];
+let shownRules = [];
 
 function checkPassword() {
     const password = passwordInput.value;
@@ -39,9 +40,9 @@ function checkPassword() {
 
     // Check each rule to see if the password meets the criteria
     for (let i = 0; i < rules.length; i++) {
-        // If the number of completed rules matches the current index and all previous rules are met, add the current rule to completedRules
-        if (completedRules.length === i && allRulesMet) {
-            completedRules.push(rules[i]);
+        // If the number of shown rules matches the current index and all previous rules are met, add the current rule to shownRules
+        if (shownRules.length === i && allRulesMet) {
+            shownRules.push(rules[i]);
         }
         // If the current rule is not met, set allRulesMet to false
         if (rules[i].check(password) == false) {
@@ -85,7 +86,7 @@ function sortPrompts() {
     let numUncompleted = 0;
     const password = passwordInput.value;
 
-    completedRules.forEach(prompt => {
+    shownRules.forEach(prompt => {
         // Checks if the prompt is "completed" based on the password.
         if (prompt.check(password)) {
             // Inserts the completed prompt at numUncompleted, which ensures it is placed after all uncompleted prompts processed so far.
@@ -107,7 +108,7 @@ function sortPrompts() {
 //     let sortedPrompts = [];
 //     const password = passwordInput.value;
 
-//     completedRules.forEach(prompt => {
+//     shownRules.forEach(prompt => {
 //         if (sortedPrompts.length == 0) {
 //             sortedPrompts.push(prompt);
 //         } else {
