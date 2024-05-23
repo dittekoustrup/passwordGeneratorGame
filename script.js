@@ -1,6 +1,6 @@
 const passwordInput = document.getElementById('passwordInput');
 const currentPrompt = document.getElementById('currentPrompt');
-const completedPrompts = document.getElementById('completedPrompts');
+const shownPrompts = document.getElementById('completedPrompts');
 const passwordCounter = document.getElementById('passwordCounter');
 
 // Password prompt rules
@@ -51,24 +51,25 @@ function checkPassword() {
     }
     // Call sortPrompts() function. 
     let sorted = sortPrompts();
-    // Clears the completedPrompts element's content.
-    completedPrompts.innerHTML = '';
+    // Clears the shownPrompts element's content.
+    shownPrompts.innerHTML = '';
     
     // Iterate through the sorted prompts to display them
     sorted.forEach(prompt => {
+        // Check if rule is completed
         if (prompt.check(password)) {
             // Create a new div element for the prompt
             const ruleElement = document.createElement('div');
             // If the prompt's rule is met, mark it as completed; otherwise, mark it as uncompleted
             ruleElement.className = 'prompt completed';
             ruleElement.innerText = prompt.message;
-            // Append the new div element to the completedPrompts container
-            completedPrompts.appendChild(ruleElement);
+            // Append the new div element to the shownPrompts container
+            shownPrompts.appendChild(ruleElement);
         } else {
             const ruleElement = document.createElement('div');
             ruleElement.className = 'prompt uncompleted';
             ruleElement.innerText = prompt.message;
-            completedPrompts.appendChild(ruleElement);
+            shownPrompts.appendChild(ruleElement);
         }
     })
 
@@ -100,6 +101,10 @@ function sortPrompts() {
     })
     return sortedPrompts;
 }
+
+
+
+
 
 
 
